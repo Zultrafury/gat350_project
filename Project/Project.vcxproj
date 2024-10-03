@@ -10,6 +10,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

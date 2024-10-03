@@ -7,8 +7,13 @@ using namespace std;
 class Renderer
 {
 public:
-    static bool Initialize()
+    SDL_Renderer* r;
+    int width;
+    int height;
+    
+    bool Initialize()
     {
+        r = nullptr;
         // initialize SDL
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
@@ -18,11 +23,12 @@ public:
         return false;
     }
 
-    static bool CreateWindow()
+    bool CreateWindow(int _w, int _h)
     {
         // create window
         // returns pointer to window if successful or nullptr if failed
-        SDL_Window* window = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+        width = _w; height = _h;
+        SDL_Window* window = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _w, _h, SDL_WINDOW_SHOWN);
         
         if (window == nullptr)
         {
@@ -32,18 +38,21 @@ public:
         }
 
         // create renderer
-        SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-
-        while (true)
-        {
-            // clear screen
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-            SDL_RenderClear(renderer);
-
-            // show screen
-            SDL_RenderPresent(renderer);
-        }
+        r = SDL_CreateRenderer(window, -1, 0);
 
         return false;
+    }
+
+    void Draw()
+    {
+        // clear screen
+        SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
+        SDL_RenderClear(r);
+    }
+
+    void PostDraw()
+    {
+        // show screen
+        SDL_RenderPresent(r);
     }
 };
