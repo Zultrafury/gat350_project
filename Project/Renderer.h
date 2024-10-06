@@ -8,6 +8,7 @@ class Renderer
 {
 public:
     SDL_Renderer* r;
+    SDL_Window* w;
     int width;
     int height;
     
@@ -28,9 +29,9 @@ public:
         // create window
         // returns pointer to window if successful or nullptr if failed
         width = _w; height = _h;
-        SDL_Window* window = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _w, _h, SDL_WINDOW_SHOWN);
+        w = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _w, _h, SDL_WINDOW_SHOWN);
         
-        if (window == nullptr)
+        if (w == nullptr)
         {
             cerr << "Error creating SDL window: " << SDL_GetError() << endl;
             SDL_Quit();
@@ -38,7 +39,7 @@ public:
         }
 
         // create renderer
-        r = SDL_CreateRenderer(window, -1, 0);
+        r = SDL_CreateRenderer(w, -1, 0);
 
         return false;
     }
