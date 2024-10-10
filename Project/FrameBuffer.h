@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 #include <vector>
+
+#include "Image.h"
 #include "Renderer.h"
 
 using clr = SDL_Color;
@@ -34,7 +36,7 @@ public:
 
     void DrawPoint(int x, int y, const clr& color)
     {
-        if (x > 0 && x < m_width && y > 0 && y < m_height)
+        if (x >= 0 && x < m_width && y >= 0 && y < m_height)
         {
             m_buffer.at(x + y * m_width) = color;
         }
@@ -179,6 +181,32 @@ public:
         DrawLine(x1,y1,x2,y2,color);
         DrawLine(x2,y2,x3,y3,color);
         DrawLine(x1,y1,x3,y3,color);
+    }
+
+    void DrawImage(int x, int y, Image& image)
+    {
+        // iterate through image y
+        for (int iy = 0; iy < image.m_height; iy++)
+        {
+            // set screen y 
+            int sy = y + iy;
+
+            // iterate through image x
+            for (int ix = 0; ix < image.m_width; ix++)
+            {
+                // set screen x
+                int sx = x + ix;
+
+                // get image pixel color
+                clr color = image.m_buffer[ix + iy * image.m_width];
+                // check alpha, if 0 don't draw
+                if (color.a != 0)
+                {
+                    // set buffer to color
+                    DrawPoint(sx,sy,color);
+                }
+            }
+        }
     }
 
 public:
