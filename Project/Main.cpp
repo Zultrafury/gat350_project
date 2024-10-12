@@ -3,6 +3,7 @@
 #include <thread>
 
 #include "FrameBuffer.h"
+#include "PostProcess.h"
 #include "Renderer.h"
 #include "stb_image.h"
 
@@ -14,7 +15,7 @@ int main(int argc, char* argv[])
     Renderer renderer = Renderer();
     renderer.Initialize();
     renderer.CreateWindow(900,600);
-    Image img = Image(); img.Load("angy.png");
+    Image img = Image(); img.Load("angy.png"); PostProcess::Posterize(img,8);
     FrameBuffer fbuff = FrameBuffer(renderer,renderer.width,renderer.height);
     auto startnano = std::chrono::high_resolution_clock::now();
 
@@ -28,7 +29,7 @@ int main(int argc, char* argv[])
             renderer.Draw();
             fbuff.Clear({ 0,0,0,255 });
             
-            fbuff.DrawImage(20,-100,img);
+            fbuff.DrawImage(200,50,img);
             //fbuff.DrawPoint(0,0,{255,255,255,255});
 
             fbuff.Update();

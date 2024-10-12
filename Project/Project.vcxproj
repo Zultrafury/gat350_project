@@ -12,6 +12,7 @@
   <ItemGroup>
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="PostProcess.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
