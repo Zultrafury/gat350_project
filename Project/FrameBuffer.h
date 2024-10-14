@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <vector>
 
+#include "Color.h"
 #include "Image.h"
 #include "Renderer.h"
 
@@ -21,9 +22,9 @@ public:
 
     void Update()
     {
-        
         SDL_UpdateTexture(m_texture,NULL,m_buffer.data(),m_pitch);
     }
+    
     void Clear(const clr& color)
     {
         std::fill(m_buffer.begin(), m_buffer.end()-1, color);
@@ -38,7 +39,8 @@ public:
     {
         if (x >= 0 && x < m_width && y >= 0 && y < m_height)
         {
-            m_buffer.at(x + y * m_width) = color;
+            clr& dest = m_buffer.at(x + y * m_width);
+            m_buffer.at(x + y * m_width) = ColorBlend(color,dest);
         }
     }
     
@@ -199,12 +201,9 @@ public:
 
                 // get image pixel color
                 clr color = image.m_buffer[ix + iy * image.m_width];
-                // check alpha, if 0 don't draw
-                if (color.a != 0)
-                {
-                    // set buffer to color
-                    DrawPoint(sx,sy,color);
-                }
+                
+                // set buffer to color
+                DrawPoint(sx,sy,color);
             }
         }
     }

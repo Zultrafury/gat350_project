@@ -86,4 +86,12 @@ namespace PostProcess
             i.b = min(max((static_cast<int>(i.b) / level) * level,0),255);
         }
     }
+
+    void Alpha(Image& image, int alpha)
+    {
+        for (auto& i : image.m_buffer)
+        {
+            i.a = alpha;
+        }
+    }
 }
