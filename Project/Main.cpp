@@ -15,7 +15,8 @@ int main(int argc, char* argv[])
     Renderer renderer = Renderer();
     renderer.Initialize();
     renderer.CreateWindow(900,600);
-    Image img = Image(); img.Load("angy.png"); SetBlendMode(BlendMode::Normal);
+    SetBlendMode(BlendMode::Alpha);
+    Image img = Image(); img.Load("angy.png"); PostProcess::Emboss(img);
     Image imga = Image(); imga.Load("colors.png");
     FrameBuffer fbuff = FrameBuffer(renderer,renderer.width,renderer.height);
     int mx = 0; int my = 0;
@@ -28,14 +29,14 @@ int main(int argc, char* argv[])
         auto nanointerval = std::chrono::duration_cast<std::chrono::nanoseconds>(nextnano-startnano).count();
         if (nanointerval > (1000000000/60))
         {
-            SDL_GetMouseState(&mx,&my);
+            //SDL_GetMouseState(&mx,&my);
 
             startnano = nextnano;
             renderer.Draw();
             fbuff.Clear({ 0,0,0,255 });
             
             fbuff.DrawImage(200,50,img);
-            fbuff.DrawImage(mx,my,imga);
+            //fbuff.DrawImage(250,100,imga);
             //fbuff.DrawPoint(mx,my,{255,255,255,255});
 
             fbuff.Update();
