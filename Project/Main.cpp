@@ -16,7 +16,8 @@ int main(int argc, char* argv[])
     renderer.Initialize();
     renderer.CreateWindow(900,600);
     Image img = Image(); img.Load("angy.png");
-    Image imga = Image(); imga.Load("colors.png");
+    Image imga = Image(); imga.Load("viggrad.png");
+    Image imgb = Image(); imgb.Load("colors.png");
     FrameBuffer fbuff = FrameBuffer(renderer,renderer.width,renderer.height);
     int mx = 0; int my = 0;
     
@@ -36,8 +37,14 @@ int main(int argc, char* argv[])
 
             SetBlendMode(BlendMode::Normal);
             fbuff.DrawImage(200,50,img);
+            SetBlendMode(BlendMode::Normal);
+            fbuff.DrawImage(500,100,imga);
+            SetBlendMode(BlendMode::Alpha);
+            fbuff.DrawImage(500,400,imga);
             SetBlendMode(BlendMode::Additive);
-            fbuff.DrawImage(250,100,imga);
+            fbuff.DrawImage(-250,-100,imgb);
+            SetBlendMode(BlendMode::Multiply);
+            fbuff.DrawImage(-250,400,imgb);
             //fbuff.DrawPoint(mx,my,{255,255,255,255});
 
             fbuff.Update();
