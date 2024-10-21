@@ -18,6 +18,8 @@ public:
         m_projection = glm::perspective(glm::radians(60.0f), static_cast<float>(m_width)/static_cast<float>(m_height), 0.1f, 100.0f);
     }
     
+    Camera(Renderer& ren) : Camera(ren.width,ren.height) {};
+    
     glm::vec4 ViewToProjection(const glm::vec3& position)
     {
         return m_projection * glm::vec4{position, 1};
@@ -25,7 +27,10 @@ public:
 
     glm::vec4 ModelToView(const glm::vec4& model)
     {
-        return model/m_projection;
+        return model/glm::mat4( 1,0,0,0,
+                                0,1,0,0,
+                                0,0,-1,-1,
+                                0,0,-0.4,0);
     }
 
     glm::ivec2 ViewToScreen(const glm::vec3& position)
