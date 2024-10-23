@@ -20,7 +20,7 @@ public:
 
     void Draw(FrameBuffer& fb, glm::mat4& model, Camera& camera)
     {
-        for (int i = 0; i < m_vertices.size()-2; ++i)
+        for (int i = 0; i < m_vertices.size(); ++i)
         {
             glm::vec4 p1 = model * glm::vec4{ m_vertices[i + 0], 1};
             glm::vec4 p2 = model * glm::vec4{ m_vertices[i + 1], 1};
@@ -46,7 +46,6 @@ public:
         if (!stream.is_open())
         {
             std::cerr << "Stream is not open!";
-            return false;
         }
 
         vertices_t vertices;
@@ -55,7 +54,7 @@ public:
         {
             // read in vertex positions
             // https://cplusplus.com/reference/string/string/substr/
-            if (line.substr(0,2) == "v ")
+            if (line.substr(0,1) == "v")
             {
                 // read position of vertex
                 std::istringstream sstream{ line.substr(2) };
@@ -67,7 +66,7 @@ public:
                 vertices.push_back(position);
             }
             // read in faces (triangles)
-            else if (line.substr(0,2) == "f ")
+            else if (line.substr(0,1) == "f")
             {
                 // read face (triangle), index of vertex position in vertices array [1, 2, 3]
                 std::istringstream sstream{ line.substr(2) };
@@ -96,7 +95,7 @@ public:
                     {
                         // get vertex at index position
                         // index is 1 based, need to subtract one for array
-                        glm::vec3 position = vertices[index[0]-1];
+                        glm::vec3 position = vertices[index[0] - 1];
 
                         m_vertices.push_back(position);
                     }
@@ -106,14 +105,6 @@ public:
 
         stream.close();
         std::cout << "Model successfully loaded: " << filename << '\n';
-
-        /*
-        for (auto position : m_vertices)
-        {
-            cout << position[0] << ", " << position[1] << ", " << position[2] << "\n";
-        }
-        */
-        
         return true;
     }
 };
