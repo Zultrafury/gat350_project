@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    srand(time(NULL));
+    srand(static_cast<Uint32>(time(NULL)));
     Renderer renderer = Renderer();
     renderer.Initialize();
     renderer.CreateWindow(900,600);
