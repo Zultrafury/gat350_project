@@ -18,6 +18,11 @@ public:
     vertices_t m_vertices;
     clr m_color{255,255,255,255};
 
+    void SetColor(const clr color)
+    {
+        m_color = color;
+    }
+    
     void Draw(FrameBuffer& fb, glm::mat4& model, Camera& camera)
     {
         for (int i = 0; i < m_vertices.size()-2; ++i)
