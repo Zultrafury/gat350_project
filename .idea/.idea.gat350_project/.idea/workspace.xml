@@ -20,7 +20,17 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Project/Main.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ThirdParty/glm/glm/detail/func_geometric.inl" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ThirdParty/glm/glm/detail/type_vec3.inl" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -33,7 +43,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;C++ Project.Project.executor&quot;: &quot;Run&quot;,
-    &quot;C++ Project.RayTrace.executor&quot;: &quot;Run&quot;,
+    &quot;C++ Project.RayTrace.executor&quot;: &quot;Debug&quot;,
     &quot;C++ Project.gat350_project.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -172,6 +182,9 @@
       <workItem from="1729669243902" duration="2645000" />
       <workItem from="1729906576052" duration="729000" />
       <workItem from="1729907750510" duration="4710000" />
+      <workItem from="1730072780253" duration="31676000" />
+      <workItem from="1730139059004" duration="5079000" />
+      <workItem from="1730148287427" duration="3762000" />
     </task>
     <servers />
   </component>

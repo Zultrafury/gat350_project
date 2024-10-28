@@ -38,7 +38,7 @@ public:
         m_width = w;
         m_height  = h;
         m_aspectratio = static_cast<float>(w)/static_cast<float>(h);
-        m_projection = glm::perspective(glm::radians(90.0f), m_aspectratio, 0.1f, 100.0f);
+        m_projection = glm::perspective(glm::radians(90.0f), m_aspectratio, 0.1f, 200.0f);
     }
 
     explicit Camera(Renderer& ren) : Camera(ren.width,ren.height) {}

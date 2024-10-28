@@ -16,4 +16,14 @@ public:
     {
         origin = origin_; direction = direction_;
     }
+
+    float Length() const
+    {
+        return direction.length() - origin.length();
+    }
+
+    Uint8 ColLength() const
+    {
+        return min(255,static_cast<int>(round(direction.length()*direction.length()*20)));
+    }
 };

@@ -18,3 +18,8 @@ inline glm::vec3 Cross(const glm::vec3& v1, const glm::vec3& v2)
  
     return result;
 }
+
+inline glm::vec3 Reflect(const glm::vec3& i, const glm::vec3& n)
+{
+    return glm::reflect(i,n);
+}
