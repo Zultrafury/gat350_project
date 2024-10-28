@@ -19,7 +19,7 @@ public:
                                 0,0,0,1,
                                 0,0,1,0);
 
-    float m_fov{ 60 }; // fov in degrees
+    float m_fov{ 45 }; // fov in degrees
     float m_aspectratio{ 1 }; // screen width / screen height
  
     glm::vec3 m_eye{ 0 };

@@ -66,19 +66,26 @@ int main(int argc, char* argv[])
     //RAYTRACING
 
     vector<shared_ptr<Material>> mats;
-    mats.push_back(std::make_shared<Material>(SDL_Color{ 128 }));
+    mats.push_back(std::make_shared<Material>(SDL_Color{ 128, 128, 128, 128 }));
     mats.push_back(std::make_shared<Material>(SDL_Color{ 255, 0, 0, 255 }));
     mats.push_back(std::make_shared<Material>(SDL_Color{ 0, 0, 255, 255 }));
+    mats.push_back(std::make_shared<Material>(SDL_Color{ 255, 0, 255, 255 }));
+    mats.push_back(std::make_shared<Material>(SDL_Color{ 0, 255, 255, 255 }));
+    mats.push_back(std::make_shared<Material>(SDL_Color{ 0, 0, 255, 255 }));
+    mats.push_back(std::make_shared<Material>(SDL_Color{ 255, 255, 0, 255 }));
+    mats.push_back(std::make_shared<Material>(SDL_Color{ 0, 255, 0, 255 }));
     
     Scene scene;
     
-    auto plane = std::make_unique<Plane>(glm::vec3{0, -0.05, 0}, glm::vec3{0, 1, 0}, mats[1]); scene.m_objects.push_back(plane.get());
+    auto plane = std::make_unique<Plane>(glm::vec3{0, -1, 0}, glm::vec3{0, 1, 0}, mats[0]); scene.m_objects.push_back(plane.get());
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 20; ++i)
     {
-        //scene.m_objects.push_back(new Sphere(random(glm::vec3{-1}, glm::vec3{1}), rand()%2, mats.at(rand()%3)));
+        auto sphere = new Sphere(random(glm::vec3{-12 }, glm::vec3{12 }) + glm::vec3{2.5,2.5,20}, (rand()%21+5)/10, mats.at(rand()%7+1));
+        cout << sphere->m_center.x << ", " << sphere->m_center.y << ", " << sphere->m_center.z << "\n";
+        scene.m_objects.push_back(sphere);
     }
-    scene.m_objects.push_back(new Sphere({0,0,3}, 1, mats.at(2)));
+    //scene.m_objects.push_back(new Sphere({0,0,3}, 1, mats.at(2)));
     
     while(true)
     {
@@ -114,32 +121,32 @@ int main(int argc, char* argv[])
             if (key.GetKey("c"))
             {
                 cam.m_projection = glm::translate(cam.m_projection,{0,0,0.02});
-                cam.SetView(cam.m_eye + glm::vec3{0,0,0.01},{0,0,1},{0,1,0});
+                cam.SetView(cam.m_eye + glm::vec3{0,0,0.1},cam.m_eye + glm::vec3{0,0,1},{0,1,0});
             }
             if (key.GetKey("v"))
             {
                 cam.m_projection = glm::translate(cam.m_projection,{0,0,-0.02});
-                cam.SetView(cam.m_eye + glm::vec3{0,0,-0.01},{0,0,1},{0,1,0});
+                cam.SetView(cam.m_eye + glm::vec3{0,0,-0.1},cam.m_eye + glm::vec3{0,0,1},{0,1,0});
             }
             if (key.GetKey("w"))
             {
                 cam.m_position = glm::rotate(cam.m_position,0.02f, glm::normalize(glm::vec3(1.0,0,0.0)));
-                cam.SetView(cam.m_eye + glm::vec3{0,0.01,0},{0,0,1},{0,1,0});
+                cam.SetView(cam.m_eye + glm::vec3{0,0.01,0},cam.m_eye + glm::vec3{0,0,1},{0,1,0});
             }
             if (key.GetKey("s"))
             {
                 cam.m_position = glm::rotate(cam.m_position,-0.02f, glm::normalize(glm::vec3(1.0,0,0.0)));
-                cam.SetView(cam.m_eye + glm::vec3{0,-0.01,0},{0,0,1},{0,1,0});
+                cam.SetView(cam.m_eye + glm::vec3{0,-0.01,0},cam.m_eye + glm::vec3{0,0,1},{0,1,0});
             }
             if (key.GetKey("a"))
             {
                 cam.m_position = glm::rotate(cam.m_position,0.02f, glm::normalize(glm::vec3(0,1.0,0.0)));
-                cam.SetView(cam.m_eye + glm::vec3{-0.01,0,0},{0,0,1},{0,1,0});
+                cam.SetView(cam.m_eye + glm::vec3{-0.01,0,0},cam.m_eye + glm::vec3{0,0,1},{0,1,0});
             }
             if (key.GetKey("d"))
             {
                 cam.m_position = glm::rotate(cam.m_position,-0.02f, glm::normalize(glm::vec3(0,1.0,0.0)));
-                cam.SetView(cam.m_eye + glm::vec3{0.01,0,0},{0,0,1},{0,1,0});
+                cam.SetView(cam.m_eye + glm::vec3{0.01,0,0},cam.m_eye + glm::vec3{0,0,1},{0,1,0});
             }
             
             /*
@@ -152,7 +159,7 @@ int main(int argc, char* argv[])
             */
 
             //draw
-            SetBlendMode(BlendMode::Alpha);
+            SetBlendMode(BlendMode::Normal);
             renderer.Draw();
             fbuff.Clear({ 0,0,0,255 });
             fbuff.DrawImage(0,-70,img);
