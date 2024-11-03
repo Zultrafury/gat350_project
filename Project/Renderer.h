@@ -29,7 +29,7 @@ public:
         // create window
         // returns pointer to window if successful or nullptr if failed
         width = _w; height = _h;
-        w = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _w, _h, SDL_WINDOW_MOUSE_FOCUS);
+        w = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _w, _h, SDL_WINDOW_MOUSE_FOCUS | SDL_RENDERER_ACCELERATED);
         
         if (w == nullptr)
         {

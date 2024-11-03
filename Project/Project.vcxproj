@@ -12,6 +12,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Emissive.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="KeyInput.h" />

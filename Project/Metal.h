@@ -22,7 +22,10 @@ public:
         // set scattered ray from reflected ray + random point in sphere (fuzz = 0 no randomness, fuzz = 1 random reflected)
         // a mirror has a fuzz value of 0 and a diffused metal surface a higher value
         scattered = Ray{ raycastHit.point, reflected + (glm::sphericalRand(1.0f) * m_fuzz) };
-        attenuation = color;
+        attenuation = clr{static_cast<Uint8>(color.r / 2),
+                        static_cast<Uint8>(color.g/2),
+                        static_cast<Uint8>(color.b/2),
+                        16};
 
         // check that reflected ray is going away from surface normal (dot product > 0)
         return glm::dot(raycastHit.normal, scattered.direction) > 0;

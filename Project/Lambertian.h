@@ -18,7 +18,10 @@ public:
         glm::vec3 direction = raycastHit.normal + glm::sphericalRand(1.0f);
 
         scattered = Ray{ raycastHit.point, direction };
-        attenuation = color;
+        attenuation = clr{static_cast<Uint8>(color.r / 2),
+                        static_cast<Uint8>(color.g/2),
+                        static_cast<Uint8>(color.b/2),
+                        16};
 
         return true;
     }
