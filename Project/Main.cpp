@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     srand(time(NULL));
     Renderer renderer = Renderer();
     renderer.Initialize();
-    renderer.CreateWindow(600,500);
+    renderer.CreateWindow(1200,800);
     Camera cam = Camera(renderer);
     cam.SetView({0,0,0},{0,0,1},{0,1,0});
     
@@ -56,12 +56,12 @@ int main(int argc, char* argv[])
     vector<shared_ptr<Material>> mats;
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 64, 64, 64, 255 }));
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 0, 0, 255 }));
-    mats.push_back(std::make_shared<Metal>(SDL_Color{ 0, 0, 255, 255 }, 5));
+    mats.push_back(std::make_shared<Metal>(SDL_Color{ 0, 0, 255, 255 }, 1));
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 0, 255, 255 }));
-    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 0, 255, 255, 255 }, 0.25));
-    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 255, 255, 255, 255 }, 0.5));
+    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 0, 255, 255, 255 }, 0.05));
+    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 255, 255, 255, 255 }, 0.25));
     mats.push_back(std::make_shared<Metal>(SDL_Color{ 255, 255, 0, 255 },0.25));
-    mats.push_back(std::make_shared<Material>(SDL_Color{ 0, 255, 0, 255 }));
+    mats.push_back(std::make_shared<Material>(SDL_Color{ 192, 192, 192, 255 }));
     
     Scene scene;
 
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
     auto plane2 = new Plane(glm::vec3{0, 20, 0}, glm::vec3{0, -1, 0}, mats[4]); scene.m_objects.push_back(plane2);
     
     //auto obj1 = new Model(mats[0]); scene.m_objects.push_back(obj1); while(true) { if (obj1->Load("centeredtorus.obj")) { break; } }
-    auto obj2 = new Model(mats[6]); scene.m_objects.push_back(obj2); obj2->SetColor({0,255,0,0}); while(true) { if (obj2->Load("cube.obj")) { break; } }
+    //auto obj2 = new Model(mats[6]); scene.m_objects.push_back(obj2); obj2->SetColor({0,255,0,0}); while(true) { if (obj2->Load("cube.obj")) { break; } }
     /*
     for (int i = 0; i < obj2->m_vertices.size()-2; i+=3 )
     {
@@ -87,9 +87,9 @@ int main(int argc, char* argv[])
         //cout << sphere->m_center.x << ", " << sphere->m_center.y << ", " << sphere->m_center.z << "\n";
         //scene.m_objects.push_back(sphere);
     }
-    //scene.m_objects.push_back(new Sphere({1.5,0,6}, 1, mats.at(3)));
-    //scene.m_objects.push_back(new Sphere({-1.5,0,6}, 1, mats.at(5)));
-    //scene.m_objects.push_back(new Sphere({0,1.75,8}, 1, mats.at(2)));
+    scene.m_objects.push_back(new Sphere({1.5,0,6}, 1, mats.at(3)));
+    scene.m_objects.push_back(new Sphere({-1.5,0,6}, 1, mats.at(5)));
+    scene.m_objects.push_back(new Sphere({0,1.75,8}, 1, mats.at(2)));
     //scene.m_objects.push_back(new Triangle({-0.5,0.5,5.5},{-0.5,0.5,5.5},{0.5,-0.5,5.5}, mats.at(6)));
     //scene.m_objects.push_back(new Triangle({0,1,5.5},{1,-2,5.5},{-1,0,5.5}, mats.at(6)));
 
@@ -105,6 +105,7 @@ int main(int argc, char* argv[])
         if (nanointerval > (1000000000/60))
         {
             //time
+            cout << chrono::duration_cast<chrono::milliseconds>(nextnano-startnano).count()*0.001f << endl;
             startnano = nextnano;
             cam.CalculateViewPlane();
             

@@ -4,8 +4,6 @@
 #include "Emissive.h"
 #include "SceneObject.h"
 #include "Sphere.h"
-#include "Triangle.h"
-
 
 class Scene
 {
@@ -20,11 +18,11 @@ public:
         if (depth <= 0) { return; }
         for (auto& object2 : m_objects)
         {
-            if (glm::length(rayhit.point - scatter.direction) < maxDistance)
+            if (object->m_t < maxDistance)
             {
                 if (object != object2 && object2->Hit(scatter,rayhit))
                 {
-                    clr color2 = object2->m_material->color;
+                    clr color2 = object2->m_material->GetColor();
                     if (dynamic_cast<Emissive*>(object2->m_material.get()))
                     {
                         clr att2;
@@ -57,13 +55,13 @@ public:
                     {
                         clr color = object->m_material->color;
                         clr att;
-                        fbuff.DrawPoint(i,fbuff.m_height - j,color);
+                        fbuff.DrawPointNB(i,min((fbuff.m_height - j),fbuff.m_height-1),color);
 
                         for (int r = 0; r < samples; ++r)
                         {
                             if (object->m_material->Scatter(ray,rayhit,att,scatter))
                             {
-                                Trace(object,i,j,ray,rayhit,scatter,fbuff,color,att,20.0f,2);
+                                Trace(object,i,j,ray,rayhit,scatter,fbuff,color,att,15.0f,1);
                             }
                         }
                     }

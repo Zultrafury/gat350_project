@@ -37,6 +37,7 @@ public:
         // If discriminant = 0, one solution (the ray grazes the sphere)
         // If discriminant > 0, two solutions (the ray hits the sphere twice)
         float discriminant = (b * b) - (4 * a * c);
+        m_t = 0;
 
         return discriminant > 0;
     }

@@ -14,7 +14,6 @@ public:
     glm::vec3 m_v3{ 0, 0, 0 };
     glm::vec2 m_bary{ 0, 0 };
     glm::vec3 m_normal{ 0, 0, 0 };
-    float m_t = 0;
     float m_z = 0;
     
     Triangle(const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3, const std::shared_ptr<Material>& material) : SceneObject(material)

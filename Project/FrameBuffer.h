@@ -44,6 +44,14 @@ public:
         }
     }
     
+    void DrawPointNB(int x, int y, const clr& color)
+    {
+        //y = y%m_height;
+        //cout << x << ", " << y << "\n";
+        clr& dest = m_buffer.at(x + y * m_width);
+        m_buffer.at(x + y * m_width) = ColorBlend(color,dest);
+    }
+    
     void DrawLine(int x1, int y1, int x2, int y2, const clr& color)
     {
         if (x2 < x1) {

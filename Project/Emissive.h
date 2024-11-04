@@ -21,4 +21,11 @@ public:
                         static_cast<Uint8>(255 * m_intensity)};
         return false;
     }
+
+    clr GetColor() override
+    {
+        clr col = color;
+        col.a = color.a * m_intensity;
+        return col;
+    }
 };

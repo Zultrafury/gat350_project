@@ -32,6 +32,7 @@ public:
  
         // get t (distance) along ray direction to hit point
         float t = glm::dot((m_center - ray.origin),m_normal) / denominator;
+        m_t = t;
         if (t < 0)
         {
             return false; // plane behind ray's origin, no intersection

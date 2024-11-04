@@ -19,4 +19,8 @@ public:
     {
         return false;
     }
+    virtual clr GetColor()
+    {
+        return color;
+    }
 };
