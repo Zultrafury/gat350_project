@@ -15,10 +15,10 @@ public:
     
     bool Scatter(const Ray& ray, const RaycastHit& raycastHit, clr& attenuation, Ray& scattered) const override
     {
-        attenuation = clr{static_cast<Uint8>(color.r * m_intensity),
-                        static_cast<Uint8>(color.g * m_intensity),
-                        static_cast<Uint8>(color.b * m_intensity),
-                        static_cast<Uint8>(128)};
+        attenuation = clr{static_cast<Uint8>(color.r),
+                        static_cast<Uint8>(color.g),
+                        static_cast<Uint8>(color.b),
+                        static_cast<Uint8>(255 * m_intensity)};
         return false;
     }
 };

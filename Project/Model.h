@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -8,15 +9,22 @@
 #include <glm/matrix.hpp>
 
 #include "Camera.h"
+#include "Triangle.h"
 
 using vertices_t = std::vector<glm::vec3>;
 using clr = SDL_Color;
 
-class Model
+class Model : virtual public SceneObject
 {
 public:
     vertices_t m_vertices;
+    vector<Triangle> tris;
     clr m_color{255,255,255,255};
+    glm::vec3 offset{0,0,5};
+
+    Model(const std::shared_ptr<Material>& material) : SceneObject(material)
+    {
+    }
 
     void SetColor(const clr color)
     {
@@ -68,6 +76,7 @@ public:
                 sstream >> position.x;
                 sstream >> position.y;
                 sstream >> position.z;
+                position += offset;
 
                 vertices.push_back(position);
             }
@@ -118,7 +127,51 @@ public:
             cout << position[0] << ", " << position[1] << ", " << position[2] << "\n";
         }
         */
+        AssembleTris();
         
         return true;
+    }
+
+    void AssembleTris()
+    {
+        tris.clear();
+        for (int i = 0; i < m_vertices.size(); i+=3 )
+        {
+            tris.emplace_back(m_vertices[i],m_vertices[i+1],m_vertices[i+2],m_material);
+        }
+        /*
+        int j = tris.size();
+        for (int k = 0; k < j; k++)
+        {
+            for (int i = 0; i < j; i++)
+            {
+                if (tris.at(k) == tris.at(i))
+                {
+                    tris.erase(tris.begin()+i);
+                    j--;
+                }
+            }
+        }
+        */
+    }
+
+    static bool ZSort(const Triangle& i1, const Triangle& i2)
+    {
+        //cout << i1.m_t << ", " << i2.m_t << '\n';
+        return (i1.m_z < i2.m_z);
+    }
+
+    bool Hit(Ray& ray, RaycastHit& rayhit) override
+    {
+        sort(tris.begin(), tris.end(),ZSort);
+        // check cast ray with mesh triangles 
+        for (auto& tri : tris)
+        {
+            if (tri.Hit(ray,rayhit))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 };

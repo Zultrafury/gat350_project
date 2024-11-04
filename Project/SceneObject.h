@@ -11,7 +11,7 @@ public:
         m_material = material;
     }
     std::shared_ptr<Material> m_material = nullptr;
-    virtual bool Hit(const Ray& ray)
+    virtual bool Hit(Ray& ray, RaycastHit& rayhit)
     {
         return false;
     }

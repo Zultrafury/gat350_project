@@ -21,7 +21,7 @@ public:
         attenuation = clr{static_cast<Uint8>(color.r / 2),
                         static_cast<Uint8>(color.g/2),
                         static_cast<Uint8>(color.b/2),
-                        16};
+                        128};
 
         return true;
     }

@@ -16,7 +16,6 @@
 #include "SceneObject.h"
 #include "Emissive.h"
 #include "Metal.h"
-#include "glm/gtx/intersect.hpp"
 
 using namespace std;
 
@@ -25,26 +24,11 @@ int main(int argc, char* argv[])
     srand(time(NULL));
     Renderer renderer = Renderer();
     renderer.Initialize();
-    renderer.CreateWindow(1200,900);
+    renderer.CreateWindow(600,500);
     Camera cam = Camera(renderer);
     cam.SetView({0,0,0},{0,0,1},{0,1,0});
     
-    Image img = Image(); img.Load("bg.jpg"); PostProcess::Posterize(img,16); PostProcess::Brightness(img,-100);
-    Model obj1;
-    while(true)
-    {
-        if (obj1.Load("centeredtorus.obj")) { break; }
-    }
-    Model obj2; obj2.SetColor({0,255,0,0});
-    while(true)
-    {
-        if (obj2.Load("cube.obj")) { break; }
-    }
-    Model obj3; obj3.SetColor({255,128,0,128});
-    while(true)
-    {
-        if (obj3.Load("ham.obj")) { break; }
-    }
+    //Image img = Image(); img.Load("bg.jpg"); PostProcess::Posterize(img,16); PostProcess::Brightness(img,-100);
     
     SetBlendMode(BlendMode::Alpha);
     FrameBuffer fbuff = FrameBuffer(renderer,renderer.width,renderer.height);
@@ -71,18 +55,31 @@ int main(int argc, char* argv[])
 
     vector<shared_ptr<Material>> mats;
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 64, 64, 64, 255 }));
-    mats.push_back(std::make_shared<Material>(SDL_Color{ 255, 0, 0, 255 }));
+    mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 0, 0, 255 }));
     mats.push_back(std::make_shared<Metal>(SDL_Color{ 0, 0, 255, 255 }, 5));
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 0, 255, 255 }));
-    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 0, 255, 255, 255 }, 1));
-    mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 224, 224, 224, 255 }));
-    mats.push_back(std::make_shared<Material>(SDL_Color{ 255, 255, 0, 255 }));
+    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 0, 255, 255, 255 }, 0.25));
+    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 255, 255, 255, 255 }, 0.5));
+    mats.push_back(std::make_shared<Metal>(SDL_Color{ 255, 255, 0, 255 },0.25));
     mats.push_back(std::make_shared<Material>(SDL_Color{ 0, 255, 0, 255 }));
     
     Scene scene;
-    
+
     auto plane = new Plane(glm::vec3{0, -1, 0}, glm::vec3{0, 1, 0}, mats[0]); scene.m_objects.push_back(plane);
-    auto plane2 = new Plane(glm::vec3{0, 20, 0}, glm::vec3{0, -1, 0}, mats[5]); scene.m_objects.push_back(plane2);
+    auto plane2 = new Plane(glm::vec3{0, 20, 0}, glm::vec3{0, -1, 0}, mats[4]); scene.m_objects.push_back(plane2);
+    
+    //auto obj1 = new Model(mats[0]); scene.m_objects.push_back(obj1); while(true) { if (obj1->Load("centeredtorus.obj")) { break; } }
+    auto obj2 = new Model(mats[6]); scene.m_objects.push_back(obj2); obj2->SetColor({0,255,0,0}); while(true) { if (obj2->Load("cube.obj")) { break; } }
+    /*
+    for (int i = 0; i < obj2->m_vertices.size()-2; i+=3 )
+    {
+        scene.m_objects.push_back( new Triangle(obj2->m_vertices[i],obj2->m_vertices[i+1],obj2->m_vertices[i+2],obj2->m_material));
+        cout << obj2->m_vertices[i].x << ", " << obj2->m_vertices[i].y << ", " << obj2->m_vertices[i].z << '\n';
+        cout << obj2->m_vertices[i+1].x << ", " << obj2->m_vertices[i+1].y << ", " << obj2->m_vertices[i+1].z << '\n';
+        cout << obj2->m_vertices[i+2].x << ", " << obj2->m_vertices[i+2].y << ", " << obj2->m_vertices[i+2].z << "\n\n";
+    }
+    */
+    //auto obj3 = new Model(mats[0]); scene.m_objects.push_back(obj3); obj3->SetColor({0,255,0,0}); while(true) { if (obj3->Load("ham.obj")) { break; } }
     
     for (int i = 0; i < 20; ++i)
     {
@@ -90,9 +87,12 @@ int main(int argc, char* argv[])
         //cout << sphere->m_center.x << ", " << sphere->m_center.y << ", " << sphere->m_center.z << "\n";
         //scene.m_objects.push_back(sphere);
     }
-    scene.m_objects.push_back(new Sphere({1.5,0,6}, 1, mats.at(3)));
-    scene.m_objects.push_back(new Sphere({-1.5,0,6}, 1, mats.at(4)));
-    scene.m_objects.push_back(new Sphere({0,1.75,8}, 1, mats.at(2)));
+    //scene.m_objects.push_back(new Sphere({1.5,0,6}, 1, mats.at(3)));
+    //scene.m_objects.push_back(new Sphere({-1.5,0,6}, 1, mats.at(5)));
+    //scene.m_objects.push_back(new Sphere({0,1.75,8}, 1, mats.at(2)));
+    //scene.m_objects.push_back(new Triangle({-0.5,0.5,5.5},{-0.5,0.5,5.5},{0.5,-0.5,5.5}, mats.at(6)));
+    //scene.m_objects.push_back(new Triangle({0,1,5.5},{1,-2,5.5},{-1,0,5.5}, mats.at(6)));
+
     
     while(true)
     {
@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
             */
 
             //draw
-            scene.Render(fbuff,cam,1);
+            scene.Render(fbuff,cam,20);
             renderer.Draw();
             
             fbuff.Update();

@@ -1,4 +1,7 @@
 ﻿#pragma once
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/intersect.hpp>
+
 #include "MathUtils.h"
 #include "SceneObject.h"
 
@@ -14,8 +17,11 @@ public:
         m_normal = normal;
     }
  
-    bool Hit(const Ray& ray) override
+    bool Hit(Ray& ray, RaycastHit& rayhit) override
     {
+        float intersect;
+        glm::intersectRayPlane(ray.origin, ray.direction, m_center, m_normal, intersect);
+        rayhit.normal = m_normal; rayhit.point = ray.origin + ray.direction * intersect;
         // check dot product of ray direction and plane normal, if result is 0 then ray direction if parallel to plane so it never hits plane
         // the dot product is 0 if the two vectors are perpendicular (90 degrees)
         float denominator = dot(ray.direction, m_normal);

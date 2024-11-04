@@ -15,8 +15,9 @@ public:
         m_radius = radius;
     }
     
-    bool Hit(const Ray& ray) override
+    bool Hit(Ray& ray, RaycastHit& rayhit) override
     {
+        glm::intersectRaySphere(ray.origin, ray.direction, m_center, m_radius, rayhit.point, rayhit.normal);
         // Vector from the ray origin to the center of the sphere
         glm::vec3 oc = ray.origin - m_center;
  
