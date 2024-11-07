@@ -16,9 +16,10 @@ public:
         float maxDistance, int depth)
         {
         if (depth <= 0) { return; }
+        //sort(m_objects.begin(), m_objects.end(),ZSort);
         for (auto& object2 : m_objects)
         {
-            if (object->m_t < maxDistance)
+            if (glm::length(scatter.origin) - glm::length(ray.origin) < maxDistance)
             {
                 if (object != object2 && object2->Hit(scatter,rayhit))
                 {
@@ -35,15 +36,20 @@ public:
                     }
                     fbuff.DrawPoint(i,fbuff.m_height - j,color);
                 }
+                //Ray scatter2 = Ray(scatter);
                 Trace(object2,i,j,scatter,rayhit,scatter,fbuff,color,att,maxDistance,depth-1);
             }
         }
     }
     
-    void Render(FrameBuffer& fbuff, Camera& cam, int samples)
+    void Render(FrameBuffer& fbuff, Camera& cam, Renderer& renderer, int samples, int depth)
     {
         for (int i = 0; i < fbuff.m_width; ++i)
         {
+            if (i%10 == 0)
+            {
+                cout << round((i/static_cast<float>(fbuff.m_width)*100)) << "% ";
+            }
             for (int j = 0; j < fbuff.m_height; ++j)
             {
                 for (auto& object : m_objects)
@@ -55,18 +61,31 @@ public:
                     {
                         clr color = object->m_material->color;
                         clr att;
-                        fbuff.DrawPointNB(i,min((fbuff.m_height - j),fbuff.m_height-1),color);
+
+                        //if (dynamic_cast<Emissive*>(object->m_material.get()))
+                        //{
+                            fbuff.DrawPoint(i,(fbuff.m_height - j),color);
+                        //}
 
                         for (int r = 0; r < samples; ++r)
                         {
                             if (object->m_material->Scatter(ray,rayhit,att,scatter))
                             {
-                                Trace(object,i,j,ray,rayhit,scatter,fbuff,color,att,15.0f,1);
+                                Trace(object,i,j,ray,rayhit,scatter,fbuff,color,att,25.0f,depth);
                             }
                         }
                     }
                 }
+                fbuff.Update();
+                fbuff.CopyFrameBuffer(renderer);
+                SDL_RenderPresent(renderer.r);
             }
         }
+    }
+
+    static bool ZSort(SceneObject*& i1, SceneObject*& i2)
+    {
+        //cout << i1.m_t << ", " << i2.m_t << '\n';
+        return (i1->m_t > i2->m_t);
     }
 };

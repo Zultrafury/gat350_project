@@ -25,7 +25,7 @@ public:
     clr GetColor() override
     {
         clr col = color;
-        col.a = color.a * m_intensity;
+        col.a = static_cast<Uint8>(min(static_cast<int>(static_cast<float>(color.a) * m_intensity),255));
         return col;
     }
 };

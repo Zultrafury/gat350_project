@@ -9,6 +9,7 @@
 #include <glm/matrix.hpp>
 
 #include "Camera.h"
+#include "Sphere.h"
 #include "Triangle.h"
 
 using vertices_t = std::vector<glm::vec3>;
@@ -20,10 +21,11 @@ public:
     vertices_t m_vertices;
     vector<Triangle> tris;
     clr m_color{255,255,255,255};
-    glm::vec3 offset{0,0,5};
+    glm::vec3 offset{0,0,0};
 
-    Model(const std::shared_ptr<Material>& material) : SceneObject(material)
+    Model(const std::shared_ptr<Material>& material, const glm::vec3 off) : SceneObject(material)
     {
+        offset = off;
     }
 
     void SetColor(const clr color)
@@ -76,7 +78,7 @@ public:
                 sstream >> position.x;
                 sstream >> position.y;
                 sstream >> position.z;
-                position += offset;
+                //position += offset;
 
                 vertices.push_back(position);
             }
@@ -137,8 +139,16 @@ public:
         tris.clear();
         for (int i = 0; i < m_vertices.size(); i+=3 )
         {
-            tris.emplace_back(m_vertices[i],m_vertices[i+1],m_vertices[i+2],m_material);
+            tris.emplace_back(m_vertices[i]+offset,m_vertices[i+1]+offset,m_vertices[i+2]+offset,m_material);
         }
+        m_t = 5;
+        /*
+        for (const auto tri : tris)
+        {
+            m_t += tri.m_z;
+        }
+        m_t /= tris.size();
+        */
         /*
         int j = tris.size();
         for (int k = 0; k < j; k++)
@@ -155,7 +165,7 @@ public:
         */
     }
 
-    static bool ZSort(const Triangle& i1, const Triangle& i2)
+    static bool ZSort(Triangle& i1, Triangle& i2)
     {
         //cout << i1.m_t << ", " << i2.m_t << '\n';
         return (i1.m_z < i2.m_z);
@@ -163,6 +173,11 @@ public:
 
     bool Hit(Ray& ray, RaycastHit& rayhit) override
     {
+        auto s = new Sphere(offset, 1, nullptr);
+        if (!s->Hit(ray, rayhit))
+        {
+            return false;
+        }
         sort(tris.begin(), tris.end(),ZSort);
         // check cast ray with mesh triangles 
         for (auto& tri : tris)

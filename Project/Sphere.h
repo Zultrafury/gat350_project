@@ -1,6 +1,8 @@
 ﻿#pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 #include <memory>
 #include <glm/vec3.hpp>
+#include <glm/gtx/intersect.hpp>
 
 #include "SceneObject.h"
 
@@ -17,7 +19,7 @@ public:
     
     bool Hit(Ray& ray, RaycastHit& rayhit) override
     {
-        glm::intersectRaySphere(ray.origin, ray.direction, m_center, m_radius, rayhit.point, rayhit.normal);
+        intersectRaySphere(ray.origin, ray.direction, m_center, m_radius, rayhit.point, rayhit.normal);
         // Vector from the ray origin to the center of the sphere
         glm::vec3 oc = ray.origin - m_center;
  
