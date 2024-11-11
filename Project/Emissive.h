@@ -15,17 +15,19 @@ public:
     
     bool Scatter(const Ray& ray, const RaycastHit& raycastHit, clr& attenuation, Ray& scattered) const override
     {
-        attenuation = clr{static_cast<Uint8>(color.r),
-                        static_cast<Uint8>(color.g),
-                        static_cast<Uint8>(color.b),
-                        static_cast<Uint8>(255 * m_intensity)};
-        return false;
+        attenuation = clr{static_cast<Uint8>(255),
+                        static_cast<Uint8>(0),
+                        static_cast<Uint8>(255),
+                        color.a};
+        return true;
     }
 
     clr GetColor() override
     {
-        clr col = color;
-        col.a = static_cast<Uint8>(min(static_cast<int>(static_cast<float>(color.a) * m_intensity),255));
+        clr col = clr{static_cast<Uint8>(color.r * m_intensity),
+                        static_cast<Uint8>(color.g * m_intensity),
+                        static_cast<Uint8>(color.b * m_intensity),
+                        color.a};
         return col;
     }
 };

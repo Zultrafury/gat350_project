@@ -11,9 +11,9 @@ public:
     std::vector<SceneObject*> m_objects;
     
     void Trace(SceneObject*& object, const int i, const int j,
-        Ray& ray, RaycastHit& rayhit, Ray& scatter,
-        FrameBuffer& fbuff, clr& color, const clr& att,
-        float maxDistance, int depth)
+               Ray& ray, RaycastHit& rayhit, Ray& scatter,
+               FrameBuffer& fbuff, clr& color, clr& att,
+               float maxDistance, int samples, int depth)
         {
         if (depth <= 0) { return; }
         //sort(m_objects.begin(), m_objects.end(),ZSort);
@@ -23,21 +23,27 @@ public:
             {
                 if (object != object2 && object2->Hit(scatter,rayhit))
                 {
-                    clr color2 = object2->m_material->GetColor();
                     if (dynamic_cast<Emissive*>(object2->m_material.get()))
                     {
-                        clr att2;
-                        object2->m_material->Scatter(ray,rayhit,att2,scatter);
-                        color = AlphaBlend(att2,color2);
+                        color = AdditiveBlend(att,color);
                     }
                     else
                     {
-                        color = AlphaBlend(att,color2);
+                        color = MultiplyBlend(att,color);
                     }
-                    fbuff.DrawPoint(i,fbuff.m_height - j,color);
+                    //if (depth == 1)
+                    //{
+                        fbuff.DrawPoint(i,fbuff.m_height - j,color);
+                    //}
                 }
-                //Ray scatter2 = Ray(scatter);
-                Trace(object2,i,j,scatter,rayhit,scatter,fbuff,color,att,maxDistance,depth-1);
+                else { return; }
+                for (int r = 0; r < samples; ++r)
+                {
+                    if (object->m_material->Scatter(ray,rayhit,att,scatter))
+                    {
+                        Trace(object2,i,j,scatter,rayhit,scatter,fbuff,color,att,maxDistance,samples,depth-1);
+                    }
+                }
             }
         }
     }
@@ -57,23 +63,19 @@ public:
                     Ray ray = cam.GetRay({i,j});
                     Ray scatter = Ray();
                     RaycastHit rayhit = RaycastHit();
+                    clr color = object->m_material->color;
                     if (object->Hit(ray,rayhit))
                     {
-                        clr color = object->m_material->color;
+                        //fbuff.DrawPoint(i,fbuff.m_height - j,color);
                         clr att;
-
-                        //if (dynamic_cast<Emissive*>(object->m_material.get()))
-                        //{
-                            fbuff.DrawPoint(i,(fbuff.m_height - j),color);
-                        //}
-
                         for (int r = 0; r < samples; ++r)
                         {
                             if (object->m_material->Scatter(ray,rayhit,att,scatter))
                             {
-                                Trace(object,i,j,ray,rayhit,scatter,fbuff,color,att,25.0f,depth);
+                                Trace(object,i,j,ray,rayhit,scatter,fbuff,color,att,100.0f,samples,depth);
                             }
                         }
+                        break;
                     }
                 }
                 fbuff.Update();

@@ -24,6 +24,6 @@ public:
 
     Uint8 ColLength() const
     {
-        return min(255,static_cast<int>(round(direction.length()*direction.length()*20)));
+        return std::min(255,static_cast<int>(round(direction.length()*direction.length()*20)));
     }
 };

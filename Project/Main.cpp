@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     srand(time(NULL));
     Renderer renderer = Renderer();
     renderer.Initialize();
-    renderer.CreateWindow(600,400);
+    renderer.CreateWindow(900,600);
     Camera cam = Camera(renderer);
     cam.SetView({0,0,0},{0,0,1},{0,1,0});
     
@@ -58,8 +58,8 @@ int main(int argc, char* argv[])
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 0, 0, 255 })); //1
     mats.push_back(std::make_shared<Metal>(SDL_Color{ 0, 0, 255, 255 }, 1)); //2
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 0, 255, 255 })); //3
-    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 0, 255, 255, 255 }, 0.05)); //4
-    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 255, 255, 255, 255 }, 0.75)); //5
+    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 0, 255, 255, 255 }, 1)); //4
+    mats.push_back(std::make_shared<Emissive>(SDL_Color{ 255, 255, 255, 255 }, 0.05)); //5
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 255, 0, 255 })); //6
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 255, 0, 0, 255 })); //7
     mats.push_back(std::make_shared<Lambertian>(SDL_Color{ 0, 255, 0, 255 })); //8
@@ -70,13 +70,17 @@ int main(int argc, char* argv[])
 
     Scene scene;
 
-    auto plane5 = new Plane(glm::vec3{0, 0, 5.5}, glm::vec3{0, 0, -1}, mats[0]); scene.m_objects.push_back(plane5);
-    auto plane = new Plane(glm::vec3{0, -1.5, 0}, glm::vec3{0, -1, 0}, mats[0]); scene.m_objects.push_back(plane);
-    auto plane2 = new Plane(glm::vec3{0, 2, 0}, glm::vec3{0, 1, 0}, mats[0]); scene.m_objects.push_back(plane2);
     auto plane6 = new Plane(glm::vec3{0, 0, -0.5}, glm::vec3{0, 0, -1}, mats[0]); scene.m_objects.push_back(plane6);
 
-    auto plane4 = new Plane(glm::vec3{2, 0, 0}, glm::vec3{-1, 0, 0}, mats[1]); scene.m_objects.push_back(plane4);
+    scene.m_objects.push_back(new Sphere({0,2,5}, 1, mats.at(5)));
+
+    
+    auto plane4 = new Plane(glm::vec3{2, 0, 0}, glm::vec3{-1, 0, 0}, mats[7]); scene.m_objects.push_back(plane4);
     auto plane3 = new Plane(glm::vec3{-2, 0, 0}, glm::vec3{1, 0, 0}, mats[8]); scene.m_objects.push_back(plane3);
+    auto plane5 = new Plane(glm::vec3{0, 0, 5.5}, glm::vec3{0, 0, -1}, mats[0]); scene.m_objects.push_back(plane5);
+
+    auto plane = new Plane(glm::vec3{0, -1.5, 0}, glm::vec3{0, 1, 0}, mats[0]); scene.m_objects.push_back(plane);
+    auto plane2 = new Plane(glm::vec3{0, 2, 0}, glm::vec3{0, -1, 0}, mats[0]); scene.m_objects.push_back(plane2);
     
     //auto obj1 = new Model(mats[0]); scene.m_objects.push_back(obj1); while(true) { if (obj1->Load("centeredtorus.obj")) { break; } }
     //auto obj2 = new Model(mats[6]); scene.m_objects.push_back(obj2); obj2->SetColor({0,255,0,0}); while(true) { if (obj2->Load("cube.obj")) { break; } }
@@ -89,8 +93,8 @@ int main(int argc, char* argv[])
         cout << obj2->m_vertices[i+2].x << ", " << obj2->m_vertices[i+2].y << ", " << obj2->m_vertices[i+2].z << "\n\n";
     }
     */
-    auto obj3 = new Model(mats[5],{0,2.5,5}); scene.m_objects.push_back(obj3); obj3->SetColor({0,0,0,0}); while(true) { if (obj3->Load("cube.obj")) { break; } }
-    auto obj4 = new Model(mats[12],{-1,-1,5}); scene.m_objects.push_back(obj4); obj4->SetColor({0,0,0,0}); while(true) { if (obj4->Load("cube.obj")) { break; } }
+    //auto obj3 = new Model(mats[5],{0,2.5,5}); scene.m_objects.push_back(obj3); obj3->SetColor({0,0,0,0}); while(true) { if (obj3->Load("cube.obj")) { break; } }
+    //auto obj4 = new Model(mats[12],{-1,-1,5}); scene.m_objects.push_back(obj4); obj4->SetColor({0,0,0,0}); while(true) { if (obj4->Load("cube.obj")) { break; } }
     
     //for (int i = 0; i < 20; ++i)
     //{
@@ -98,9 +102,9 @@ int main(int argc, char* argv[])
         //cout << sphere->m_center.x << ", " << sphere->m_center.y << ", " << sphere->m_center.z << "\n";
         //scene.m_objects.push_back(sphere);
     //}
-    scene.m_objects.push_back(new Sphere({1,0,5}, 1, mats.at(12)));
     //scene.m_objects.push_back(new Sphere({-1.5,0,6}, 1, mats.at(5)));
     //scene.m_objects.push_back(new Sphere({0,1.75,8}, 1, mats.at(2)));
+    //scene.m_objects.push_back(new Sphere({1,0,5}, 1, mats.at(12)));
     //scene.m_objects.push_back(new Triangle({-0.5,0.5,5.5},{-0.5,0.5,5.5},{0.5,-0.5,5.5}, mats.at(6)));
     //scene.m_objects.push_back(new Triangle({0,1,5.5},{1,-2,5.5},{-1,0,5.5}, mats.at(6)));
 
@@ -178,7 +182,7 @@ int main(int argc, char* argv[])
             */
 
             //draw
-            scene.Render(fbuff,cam,renderer,5,3);
+            scene.Render(fbuff,cam,renderer,10,3);
             renderer.Draw();
             
             //fbuff.Update();
