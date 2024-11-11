@@ -7,7 +7,6 @@
 #include "Lambertian.h"
 #include "Model.h"
 #include "Plane.h"
-#include "PostProcess.h"
 #include "Random.h"
 #include "Renderer.h"
 #include "Scene.h"
@@ -30,13 +29,14 @@ int main(int argc, char* argv[])
     
     //Image img = Image(); img.Load("bg.jpg"); PostProcess::Posterize(img,16); PostProcess::Brightness(img,-100);
     
-    SetBlendMode(BlendMode::Alpha);
+    //SetBlendMode(BlendMode::Alpha);
     FrameBuffer fbuff = FrameBuffer(renderer,renderer.width,renderer.height);
     KeyInput key = KeyInput();
     int mx; int my;
     
     auto startnano = std::chrono::high_resolution_clock::now();
 
+    /*
     glm::mat4 pos1 = glm::mat4(  1,0,0,0,
                                 0,1,0,0,
                                 0,0,1,0,
@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
                                 0,0,0.1,0,
                                 -2,0.25,0,2);
     //pos = glm::translate(pos,glm::vec3(0.0,-100.0,0.0));
+    */
 
     //RAYTRACING
 
@@ -125,6 +126,7 @@ int main(int argc, char* argv[])
             cam.CalculateViewPlane();
             
             //input
+            /*
             if (key.GetKey("left"))
             {
                 cam.m_projection = glm::translate(cam.m_projection,{-0.02,0,0});
@@ -171,7 +173,7 @@ int main(int argc, char* argv[])
                 cam.m_position = glm::rotate(cam.m_position,-0.02f, glm::normalize(glm::vec3(0,1.0,0.0)));
                 cam.SetView(cam.m_eye + glm::vec3{0.01,0,0},cam.m_eye + glm::vec3{0,0,1},{0,1,0});
             }
-            
+            */
             /*
             //pos = glm::rotate(pos,0.01f,normalize(glm::vec3(0.5,1.0,0.0)));
             obj1.Draw(fbuff,pos1,cam);
@@ -182,7 +184,7 @@ int main(int argc, char* argv[])
             */
 
             //draw
-            scene.Render(fbuff,cam,renderer,10,3);
+            scene.Render(fbuff,cam,renderer,20,1);
             renderer.Draw();
             
             //fbuff.Update();

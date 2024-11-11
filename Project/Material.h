@@ -3,8 +3,6 @@
 
 #include "Ray.h"
 class RaycastHit;
-
-
 using clr = SDL_Color;
 
 class Material
@@ -15,6 +13,6 @@ public:
     
     Material(const clr& color_);
     
-    virtual bool Scatter(const Ray& ray, const RaycastHit& raycastHit, clr& attenuation, Ray& scattered) const;
+    virtual bool Scatter(const Ray& ray, RaycastHit& raycastHit, clr& attenuation, Ray& scattered) const;
     virtual clr GetColor();
 };

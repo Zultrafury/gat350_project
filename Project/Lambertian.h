@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include <SDL_pixels.h>
 
-#include "Material.h"
-#include "Ray.h"
 #include "RaycastHit.h"
 #include "glm/gtc/random.hpp"
 
@@ -19,7 +17,6 @@ public:
         //direction.x += (static_cast<float>(rand() % 100)/200) - 0.25f;
         //direction.y += (static_cast<float>(rand() % 100)/200) - 0.25f;
         //direction.z += (static_cast<float>(rand() % 100)/200) - 0.25f;
-
         scattered = Ray{ raycastHit.point, direction };
         attenuation = clr{static_cast<Uint8>(color.r),
                         static_cast<Uint8>(255-8),

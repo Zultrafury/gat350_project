@@ -1,6 +1,5 @@
 ﻿#pragma once
 #define FLT_EPSILON      1.192092896e-07F 
-#include <cmath>
 
 inline bool approximately(float value1, float value2)
 {
@@ -17,9 +16,4 @@ inline glm::vec3 Cross(const glm::vec3& v1, const glm::vec3& v2)
     result.z = v1.x * v2.y - v2.x * v1.y;
  
     return result;
-}
-
-inline glm::vec3 Reflect(const glm::vec3& i, const glm::vec3& n)
-{
-    return glm::reflect(i,n);
 }

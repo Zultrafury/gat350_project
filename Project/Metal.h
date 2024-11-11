@@ -17,7 +17,7 @@ public:
     
     bool Scatter(const Ray& ray, const RaycastHit& raycastHit, clr& attenuation, Ray& scattered) const override
     {
-        glm::vec3 reflected = Reflect(raycastHit.point,raycastHit.normal);
+        glm::vec3 reflected = reflect(raycastHit.point,raycastHit.normal);
 
         // set scattered ray from reflected ray + random point in sphere (fuzz = 0 no randomness, fuzz = 1 random reflected)
         // a mirror has a fuzz value of 0 and a diffused metal surface a higher value
