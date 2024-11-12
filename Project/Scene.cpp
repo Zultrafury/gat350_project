@@ -11,17 +11,21 @@ void Scene::Trace(SceneObject*& object, int i, int j,
     {
         if (glm::length(scatter.origin) - glm::length(ray.origin) < maxDistance)
         {
-            if (object != object2 && object2->Hit(scatter,rayhit))
-            {
-                rayhit.BlendColor(object2->m_material);
-                if (depth == 1)
-                {
-                    //fbuff.DrawPoint(i,fbuff.m_height - j,rayhit.mat->color);
-                }
-            }
-            //else { return; }
             for (int r = 0; r < samples; ++r)
             {
+                if (object != object2 && object2->Hit(scatter,rayhit))
+                {
+                    rayhit.BlendColor(object2->m_material);
+                    if (depth == 1)
+                    {
+                        clr drawcol = rayhit.material->color;
+                        drawcol.a /= samples;
+                        fbuff.DrawPoint(i,fbuff.m_height - j,drawcol);
+                        rayhit.material->color = object->m_material->color;
+                    }
+                }
+                //else { return; }
+            
                 if (object->m_material->Scatter(ray,rayhit,att,scatter))
                 {
                     Trace(object2,i,j,scatter,rayhit,scatter,fbuff,color,att,maxDistance,samples,depth-1);
@@ -47,19 +51,20 @@ void Scene::Render(FrameBuffer& fbuff, Camera& cam, Renderer& renderer, int samp
                 Ray scatter = Ray();
                 RaycastHit rayhit = RaycastHit();
                 clr color = object->m_material->color;
-                if (object->Hit(ray,rayhit))
+                for (int r = 0; r < samples; ++r)
                 {
-                    rayhit.material = object->m_material;
-                    //fbuff.DrawPoint(i,fbuff.m_height - j,color);
-                    clr att;
-                    for (int r = 0; r < samples; ++r)
+                    if (object->Hit(ray,rayhit))
                     {
+                        rayhit.material = object->m_material;
+                        //fbuff.DrawPoint(i,fbuff.m_height - j,color);
+                        clr att;
+                    
                         if (object->m_material->Scatter(ray,rayhit,att,scatter))
                         {
                             Trace(object,i,j,ray,rayhit,scatter,fbuff,color,att,100.0f,samples,depth);
                         }
+                        break;
                     }
-                    break;
                 }
             }
             fbuff.Update();

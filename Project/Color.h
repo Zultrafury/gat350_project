@@ -4,16 +4,20 @@
 
 using clr = SDL_Color;
 
-enum class BlendMode;
+enum class BlendMode
+{
+    Normal, Alpha,
+    Additive, Multiply
+};
 
-inline clr ColorBlend(clr src, clr dest);
+clr ColorBlend(clr src, clr dest);
 
-inline clr NormalBlend(clr src, clr dest);
+clr NormalBlend(clr src, clr dest);
 
-inline clr AlphaBlend(clr src, clr dest);
+clr AlphaBlend(clr src, clr dest);
 
-inline clr AdditiveBlend(clr src, clr dest);
+clr AdditiveBlend(clr src, clr dest);
 
-inline clr MultiplyBlend(clr src, clr dest);
+clr MultiplyBlend(clr src, clr dest);
 
-inline void SetBlendMode(BlendMode mode);
+void SetBlendMode(BlendMode mode);

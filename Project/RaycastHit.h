@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <memory>
-#include "Material.h"
-
+#include <glm/vec3.hpp>
+class Material;
 using mat_t = std::shared_ptr<Material>;
 
 class RaycastHit
@@ -13,6 +13,6 @@ public:
 
     RaycastHit();
     RaycastHit(const glm::vec3& normal_, const glm::vec3& point_);
-    RaycastHit(const glm::vec3& normal_, const glm::vec3& point_, const mat_t& mat_);
-    inline void BlendColor(const mat_t& material2) const;
+    RaycastHit(const glm::vec3& normal_, const glm::vec3& point_, mat_t& mat_);
+    void BlendColor(const mat_t& material2) const;
 };

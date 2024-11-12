@@ -2,23 +2,17 @@
 
 clr(*blend_func)(clr src, clr dest);
 
-enum class BlendMode
-{
-    Normal, Alpha,
-    Additive, Multiply
-};
-
-inline clr ColorBlend(clr src, clr dest)
+clr ColorBlend(clr src, clr dest)
 {
     return blend_func(src,dest);
 }
 
-inline clr NormalBlend(clr src, clr dest)
+clr NormalBlend(clr src, clr dest)
 {
     return src;
 }
 
-inline clr AlphaBlend(clr src, clr dest)
+clr AlphaBlend(clr src, clr dest)
 {
     uint8_t alpha = src.a;
     uint8_t inv_alpha = 255 - alpha; // 1(255) - alpha
@@ -32,7 +26,7 @@ inline clr AlphaBlend(clr src, clr dest)
     return color;
 }
 
-inline clr AdditiveBlend(clr src, clr dest)
+clr AdditiveBlend(clr src, clr dest)
 {
     clr color;
     color.r = std::min(src.r + dest.r,255);
@@ -43,7 +37,7 @@ inline clr AdditiveBlend(clr src, clr dest)
     return color;
 }
 
-inline clr MultiplyBlend(clr src, clr dest)
+clr MultiplyBlend(clr src, clr dest)
 {
     clr color;
     color.r = std::min(src.r * dest.r >> 8,255);
@@ -54,7 +48,7 @@ inline clr MultiplyBlend(clr src, clr dest)
     return color;
 }
 
-inline void SetBlendMode(BlendMode mode)
+void SetBlendMode(BlendMode mode)
 {
     switch (mode)
     {

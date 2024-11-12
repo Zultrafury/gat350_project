@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "FrameBuffer.h"
 #include "SceneObject.h"
+#include "RaycastHit.h"
 
 class Scene
 {

@@ -15,6 +15,7 @@
 #include "SceneObject.h"
 #include "Emissive.h"
 #include "Metal.h"
+#include "Color.h"
 
 using namespace std;
 
@@ -23,13 +24,13 @@ int main(int argc, char* argv[])
     srand(time(NULL));
     Renderer renderer = Renderer();
     renderer.Initialize();
-    renderer.CreateWindow(900,600);
+    renderer.CreateWindow(300,200);
     Camera cam = Camera(renderer);
     cam.SetView({0,0,0},{0,0,1},{0,1,0});
     
     //Image img = Image(); img.Load("bg.jpg"); PostProcess::Posterize(img,16); PostProcess::Brightness(img,-100);
     
-    //SetBlendMode(BlendMode::Alpha);
+    SetBlendMode(BlendMode::Alpha);
     FrameBuffer fbuff = FrameBuffer(renderer,renderer.width,renderer.height);
     KeyInput key = KeyInput();
     int mx; int my;
@@ -184,7 +185,7 @@ int main(int argc, char* argv[])
             */
 
             //draw
-            scene.Render(fbuff,cam,renderer,20,1);
+            scene.Render(fbuff,cam,renderer,5,20);
             renderer.Draw();
             
             //fbuff.Update();
